@@ -13,8 +13,9 @@ func printTokenList(tokList []token.Token) {
 
 func main() {
 	input := `
-int i[1];
-`
+{
+int i = a + b; int c = d;
+}`
 	l := lexer.New(input)
 	tokList := l.Scan()
 	// printTokenList(tokList)

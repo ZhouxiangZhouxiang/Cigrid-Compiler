@@ -20,6 +20,7 @@ type VarDef struct {
 	Token     token.Token // type
 	Name      *Identifier
 	Dimension int // -1 int *, 0 int, x int[x]
+	Value     []Expression
 }
 func (d *VarDef) statementNode()        {}
 func (d *VarDef) TokenLiteral() string  { return d.Token.Literal }
@@ -29,9 +30,30 @@ func (d *VarDef) String() string {
 	out.WriteString(strconv.Itoa(d.Dimension))
 	out.WriteString("]")
 	out.WriteString(d.Name.String())
+	out.WriteString(" = [ ")
+	for _, v := range d.Value {
+		out.WriteString(v.String() + " ")
+	}
+	out.WriteString("]\n")
 	return out.String()
 }
 
+type BlockStatement struct {
+	Token      token.Token
+	Statements []Statement
+}
+
+func (bs *BlockStatement) statementNode()       {}
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+func (bs *BlockStatement) String() string {
+	var out bytes.Buffer 
+	out.WriteString("BEGIN \n")
+	for _, v := range bs.Statements {
+		out.WriteString(v.String())
+	}
+	out.WriteString("END \n")
+	return out.String()
+}
 
 type Expression interface {
 	Node 

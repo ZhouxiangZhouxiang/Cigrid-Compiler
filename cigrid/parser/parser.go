@@ -3,6 +3,7 @@ package parser
 import "cigrid/token"
 import "cigrid/ast"
 import "strconv"
+//import "fmt"
 
 const (
 	_ int = iota
@@ -109,23 +110,35 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 	return leftExp
 }
 
-func (p *Parser) parseDefineStatement() ast.Statement {
+func (p *Parser) parseDefineStatement() ast.Statement{
+	// int
 	statement := &ast.VarDef{Token: p.curToken, Dimension: 0}
 	if p.peekToken.Type == token.ASTERISK {
 		statement.Dimension = -1
 		p.nextToken()
+		// *
 	}
 	p.nextToken()
+	// IDENT
 	statement.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 	if p.peekToken.Type == token.LBRACKET {
 		p.nextToken()
+		// [
 		p.nextToken()
+		// 4
 		val, _ := strconv.Atoi(p.curToken.Literal)
 		statement.Dimension = val
 		p.nextToken()
+		// ]
 	}
 	p.nextToken()
-
+	// =
+	p.nextToken()
+	if statement.Dimension == -1 || statement.Dimension == 0 {
+		statement.Value = append(statement.Value, p.parseExpression(LOWEST))
+	}
+	p.nextToken()
+	// ;
 	return statement
 
 }
@@ -138,8 +151,21 @@ func (p *Parser) parseStatement() ast.Statement {
 	return statement
 }
 
+func (p *Parser) parseBlockStatement() ast.Statement {
+	block := &ast.BlockStatement{Token: p.curToken, Statements: []ast.Statement{}} 
+	// {
+	p.nextToken()
+
+	for p.curToken.Type != token.RBRACE {
+		statement := p.parseStatement()
+		block.Statements = append(block.Statements, statement)
+		p.nextToken()
+	}
+	p.nextToken()
+	return block
+}
+
 func (p *Parser) ParseProgram() ast.Statement {
-	//leftExp := p.parseExpression(LOWEST)
-	statement := p.parseStatement()
+	statement := p.parseBlockStatement()
 	return statement
 }
