@@ -132,7 +132,7 @@ func (l *Lexer) nextToken() token.Token {
 		tok.Type = token.SEMICOLON
 		tok.Literal = ";"
 	case '"':
-		tok.Type = token.TSTRING
+		tok.Type = token.STRING
 		tok.Literal = l.readString()
 	case 0:
 		tok.Type = token.EOF

@@ -3,6 +3,8 @@ package main
 import "cigrid/token"
 import "cigrid/lexer"
 import "cigrid/parser"
+import "cigrid/ir"
+import "cigrid/ir_translator"
 import "fmt"
 
 func printTokenList(tokList []token.Token) {
@@ -11,15 +13,33 @@ func printTokenList(tokList []token.Token) {
 	}
 }
 
+func printIrList(irList []ir.IntermediateRepresentation) {
+	for _, v := range irList {
+		fmt.Println(v.IrString())
+	}
+}
+
 func main() {
 	input := `
-{
-int i = a + b; int c = d;
-}`
+int print(string a, int b) {
+	i = a + b;
+	if (a + b) {
+		i = expression(1,2,a[9]);
+	}
+	else {
+		i = 2;
+	}
+	printf("hello");
+	return;
+}
+`
 	l := lexer.New(input)
 	tokList := l.Scan()
-	// printTokenList(tokList)
+	//printTokenList(tokList)
 	p := parser.New(tokList)
 	leftExp := p.ParseProgram()
 	fmt.Println(leftExp.String())
+	t := ir_translator.New(leftExp)
+	ll := t.Translate()
+	printIrList(ll)
 }
