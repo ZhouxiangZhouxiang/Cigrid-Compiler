@@ -40,3 +40,9 @@ void string int if else while return
 $$
 a_{i} = \alpha^{ab} \times v
 $$
+
+| s<sub>c</sub> | v<sup>d</sup> | $aa_b$ |
+| ------------- | ------------- | ------ |
+|               |               |        |
+|               |               |        |
+|               |               |        |
