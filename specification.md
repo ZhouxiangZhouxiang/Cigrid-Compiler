@@ -37,4 +37,6 @@ program->{global}
 void string int if else while return
 ```
 
-
+$$
+a_{i} = \alpha^{ab} \times v
+$$
