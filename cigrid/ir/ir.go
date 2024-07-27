@@ -8,6 +8,7 @@ type Op string
 // Op
 const (
 	ADD = "add"
+	SUB = "sub"
 	MOV = "mov"
 )
 

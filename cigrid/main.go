@@ -22,7 +22,7 @@ func printIrList(irList []ir.IntermediateRepresentation) {
 func main() {
 	input := `
 int print(string a, int b) {
-	i = a + b;
+	i = a - 1 + 2;
 	if (a + b) {
 		i = expression(1,2,a[9]);
 	}

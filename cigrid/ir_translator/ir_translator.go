@@ -1,5 +1,6 @@
 package ir_translator 
 
+import "cigrid/token"
 import "cigrid/ast"
 import "cigrid/ir"
 
@@ -37,10 +38,18 @@ func (t *irTranslator) translateExpression(expression ast.Expression) int {
 		t.tempRegister++
 		return t.tempRegister - 1
 	} else if exp, ok := expression.(*ast.InfixExpression); ok {
+		var infix_temp ir.Op
+		switch exp.Operator.Type {
+		case token.PLUS: 
+			infix_temp = ir.ADD
+		case token.MINUS:
+			infix_temp = ir.SUB
+		default:
+		}
 		o1 := t.translateExpression(exp.Left)
 		o2 := t.translateExpression(exp.Right)
 		ir_temp := ir.CalcInst{
-			Operation: ir.ADD, 
+			Operation: infix_temp, 
 			Operand1: o1,
 			Operand2: o2,
 		}
