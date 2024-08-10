@@ -22,15 +22,9 @@ func printIrList(irList []ir.IntermediateRepresentation) {
 func main() {
 	input := `
 int print(string a, int b) {
-	i = a - 1 + 2;
-	if (a + b) {
-		i = expression(1,2,a[9]);
-	}
-	else {
+	if (!a && b) {
 		i = 2;
 	}
-	printf("hello");
-	return;
 }
 `
 	l := lexer.New(input)

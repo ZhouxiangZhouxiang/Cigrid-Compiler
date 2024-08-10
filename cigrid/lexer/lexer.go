@@ -83,11 +83,17 @@ func (l *Lexer) nextToken() token.Token {
 	case '&':
 		if l.peekCh == '&' {
 			tok.Type = token.AND
-			tok.Literal = "=="
+			tok.Literal = "&&"
 			l.readChar()
 		} else {
 			tok.Type = token.ET 
 			tok.Literal = "&"
+		}
+	case '|':
+		if l.peekCh == '|' {
+			tok.Type = token.OR 
+			tok.Literal = "||"
+			l.readChar()
 		}
 	case '<':
 		if l.peekCh == '=' {
